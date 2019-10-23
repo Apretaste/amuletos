@@ -1,5 +1,16 @@
 .desc {
 	font-size: small;
 	line-height: 1em;
-	margin-bottom: 5px !important;
+}
+
+.uptop {
+	margin-top: -10px;
+}
+
+.note {
+	font-size: smaller;
+}
+
+.spaced {
+	padding: 10px 0px;
 }

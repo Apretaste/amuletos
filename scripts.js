@@ -28,8 +28,10 @@ function unequip() {
 }
 
 // show the modal popup
-function openModalBuy(code) {
+function openModalBuy(code, name, price) {
 	selectedCode = code;
+	$('#modalName').html(name);
+	$('#modalPrice').html(price);
 	$('#modal').modal('open');
 }
 

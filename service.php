@@ -25,12 +25,13 @@ class Service
 		// separate active from inventary
 		$active = $inventary = [];
 		foreach($amulets as $amulet) {
-			// get the counter right
+			// get the counter in the format HH:MM:SS
+			$amulet->countdown = "";
 			if($amulet->expires) {
 				$today = new DateTime();
 				$future = new DateTime($amulet->expires);
 				$diff = date_diff($today, $future);
-				$amulet->expires = $diff->d * 24 + $diff->h .':'. $diff->i .':'. $diff->s;
+				$amulet->countdown = $diff->d * 24 + $diff->h .':'. $diff->i .':'. $diff->s;
 			}
 
 			// clasify the amulet
