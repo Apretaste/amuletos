@@ -20,7 +20,7 @@ class Service
 			WHERE A.person_id = {$request->person->id}
 			AND (A.expires > CURRENT_TIMESTAMP OR A.expires IS NULL)
 			AND B.active = 1
-			ORDER BY A.expires DESC", true, 'utf8');
+			ORDER BY A.expires DESC");
 
 		// separate active from inventary
 		$active = $inventary = [];
@@ -115,8 +115,7 @@ class Service
 			WHERE id NOT IN (
 				SELECT amulet_id 
 				FROM _amulets_person 
-				WHERE person_id={$request->person->id}
-			)", true, 'utf8');
+				WHERE person_id={$request->person->id})");
 
 		// get content for the view
 		$content = [

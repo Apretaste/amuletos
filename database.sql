@@ -56,7 +56,7 @@ INSERT into _amulets (name, description, icon, price, duration, code) VALUES
 ('Vidente','Conoce siempre quién te da dislike en Pizarra','remove_red_eye','0.10',336,'AMULET_VIDENTE'),
 ('El florista','Obtén el doble de flores cuando canjees en la tienda de Piropazo con este amuleto activo.','local_florist','3',168,'AMULET_FLORISTA'),
 ('Invitador','Recibe 30% extra en crédito cuando invites a tus amigos o familiares y estos se unan a la app','add_circle','1.50',168 ,'AMULET_INVITADOR'),
-('Ticket 24/7','Gana 1 ticket para la Rifa cada 24 horas que tengas éste amuleto activo.','local_activity','3',168 ,'AMULET_TICKET247'),
+('Tickets x2','Gana 1 ticket extra para la Rifa en por cada ticket que compres al tener este amuleto equipado.','local_activity','3',168 ,'AMULET_TICKETS'),
 ('Jugador Experto','Obtén el doble de lo que ganarías normalmente en cada apuesta con éste potenciador tan especial.','videogame_asset','2',12 ,'AMULET_JUGADOR'),
 ('Me dicen Romeo','Al activar este amulato, su perfil aparecerá más veces en las sugerencias de Piropazo.','favorite','2',96,'AMULET_ROMEO'),
 ('Encuestador','Con la suerte de tu lado, obtén un regalo sorpresa al completar una encuesta.','card_giftcard','0.50',12,'AMULET_ENCUESTAS'),
@@ -70,16 +70,16 @@ INSERT into _amulets (name, description, icon, price, duration, code) VALUES
 --
 
 INSERT into inventory (code, name, price, seller_id, service) VALUES
-('AMULET_DETECTIVE', 'Amuleto "Detective"', 5, 'TODO', 'AMULETOS'),
-('AMULET_SHADOWMODE', 'Amuleto "Shadow-Mode"', 10, 'TODO', 'AMULETOS'),
-('AMULET_VIDENTE', 'Amuleto "Vidente"', 0.10, 'TODO', 'AMULETOS'),
-('AMULET_FLORISTA', 'Amuleto "El florista"', 3, 'TODO', 'AMULETOS'),
-('AMULET_INVITADOR', 'Amuleto "Invitador"', 1.50, 'TODO', 'AMULETOS'),
-('AMULET_TICKET247', 'Amuleto "Ticket 24/7"', 3, 'TODO', 'AMULETOS'),
-('AMULET_JUGADOR', 'Amuleto "Jugador Experto"', 2, 'TODO', 'AMULETOS'),
-('AMULET_ROMEO', 'Amuleto "Me dicen Romeo"', 2, 'TODO', 'AMULETOS'),
-('AMULET_ENCUESTAS', 'Amuleto "Encuestador"', 0.50, 'TODO', 'AMULETOS'),
-('AMULET_CUPONESX2 ', 'Amuleto "Cupones x2"', 1, 'TODO', 'AMULETOS'),
-('AMULET_ENCUESTAX2', 'Amuleto "Encuesta x2"', 1, 'TODO', 'AMULETOS'),
-('AMULET_PRIORIDAD ', 'Amuleto "Prioridad"', 0.50, 'TODO', 'AMULETOS'),
-('AMULET_APUESTAS ', 'Amuleto "Apuesta Patrocinada"', 2, 'TODO', 'AMULETOS');
+('AMULET_DETECTIVE', 'Amuleto "Detective"', 5, '218938', 'AMULETOS'),
+('AMULET_SHADOWMODE', 'Amuleto "Shadow-Mode"', 10, '218938', 'AMULETOS'),
+('AMULET_VIDENTE', 'Amuleto "Vidente"', 0.10, '218938', 'AMULETOS'),
+('AMULET_FLORISTA', 'Amuleto "El florista"', 3, '218938', 'AMULETOS'),
+('AMULET_INVITADOR', 'Amuleto "Invitador"', 1.50, '218938', 'AMULETOS'),
+('AMULET_TICKETS', 'Amuleto "Ticket 24/7"', 3, '218938', 'AMULETOS'),
+('AMULET_JUGADOR', 'Amuleto "Jugador Experto"', 2, '218938', 'AMULETOS'),
+('AMULET_ROMEO', 'Amuleto "Me dicen Romeo"', 2, '218938', 'AMULETOS'),
+('AMULET_ENCUESTAS', 'Amuleto "Encuestador"', 0.50, '218938', 'AMULETOS'),
+('AMULET_CUPONESX2 ', 'Amuleto "Cupones x2"', 1, '218938', 'AMULETOS'),
+('AMULET_ENCUESTAX2', 'Amuleto "Encuesta x2"', 1, '218938', 'AMULETOS'),
+('AMULET_PRIORIDAD ', 'Amuleto "Prioridad"', 0.50, '218938', 'AMULETOS'),
+('AMULET_APUESTAS ', 'Amuleto "Apuesta Patrocinada"', 2, '218938', 'AMULETOS');
