@@ -1,0 +1,62 @@
+<div class="row">
+	<div class="col s12">
+		<ul class="tabs tabs-fixed-width">
+			<li class="tab"><a href="#" class="active">Inventario</a></li>
+			<li class="tab"><a href="#" onclick="apretaste.send({command: 'AMULETOS STORE'})">Tienda</a></li>
+		</ul>
+	</div>
+</div>
+
+<div class="row">
+	<% active.forEach(function(item) { %>
+		<div class="col s4 center" onclick="openModalUnequip('<%= item.amulet_id %>','<%= item.name %>','<%= item.description %>','<%= item.icon %>',)">
+			<i class="large material-icons"><%= item.icon %></i>
+			<div class="countdown grey-text"><%= item.expires %></div>
+		</div>
+	<% }) %>
+
+	<% if(!active.length) { %>
+		<div class="col s12 center grey-text">
+			Usted no tiene amuletos equipados. Equipe alguno y disfrute sus poderes.
+		</div>
+	<% } %>
+</div>
+
+<div class="row">
+	<div class="col s12">
+		<ul class="collection">
+			<% inventary.forEach(function(item) { %>
+				<li class="collection-item avatar">
+					<i class="material-icons circle"><%= item.icon %></i>
+					<span class="title"><b><%= item.name %></b></span>
+					<p class="grey-text">
+						<% if(item.expires) { %>
+							<span class="countdown"><%= item.expires %></span>
+						<% } else { %>
+							Efecto ilimitado
+						<% } %>
+					</p>
+
+					<p class="desc"><%= item.description %></p>
+
+					<a href="#!" class="secondary-content" 
+						onclick="apretaste.send({command:'AMULETOS EQUIP', data:{'id':'<%= item.amulet_id %>'}})">
+						<i class="material-icons">arrow_upward</i>
+					</a>
+				</li>
+			<% }) %>
+		</ul>
+	</div>
+</div>
+
+<!-- MODALS -->
+
+<div id="modal" class="modal">
+	<div class="modal-content center">
+		<i id="modalIcon" class="large material-icons"></i>
+		<div><b id="modalName"></b></div>
+		<div id="modalDesc"></div>
+		<br>
+		<a class="waves-effect waves-light btn" href="!#" onclick="unequip()">Desequipar</a>
+	</div>
+</div>
