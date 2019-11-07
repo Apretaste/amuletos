@@ -52,9 +52,19 @@ function countdown() {
 
 		// break up the counter
 		var time = cnt.split(":");
+		if(time.length !== 3) return;
+
+		// separate hours, minutes and seconds
 		var hours = time[0];
 		var mins = time[1];
 		var secs = time[2];
+
+		// in the case of days
+		if(hours > 24) {
+			daysRemaining = Math.floor(hours / 24)
+			$(e).html(daysRemaining + ' días');
+			return;
+		}
 
 		// count down
 		if(secs-- <= 0) {

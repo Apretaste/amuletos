@@ -63,6 +63,7 @@ class Service
 			SELECT COUNT(id) AS cnt
 			FROM _amulets_person
 			WHERE person_id = {$request->person->id}
+			AND (expires > CURRENT_TIMESTAMP OR expires IS NULL)
 			AND active = 1")[0]->cnt;
 
 		// return back the list if there are not empty slots
@@ -92,7 +93,7 @@ class Service
 		Connection::query("
 			UPDATE _amulets_person 
 			SET active = 0
-			WHERE amulet_id = {$request->input->data->id} 
+			WHERE amulet_id = {$request->input->data->id}
 			AND person_id = {$request->person->id}");
 
 		// get back to the list of amulets
