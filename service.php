@@ -153,7 +153,7 @@ class Service
 
 		// calculate expiration date
 		if($amulet->duration <= 0) $expires = "NULL";
-		else $expires = "'".date("Y-m-d H:m:s", strtotime(date()."+ {$amulet->duration} hours"))."'";
+		else $expires = "'".date("Y-m-d H:m:s", strtotime("+{$amulet->duration} hours"))."'";
 
 		// add the amulet to the table
 		Connection::query("
