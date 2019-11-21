@@ -116,7 +116,8 @@ class Service
 			WHERE id NOT IN (
 				SELECT amulet_id 
 				FROM _amulets_person 
-				WHERE person_id={$request->person->id})");
+				WHERE person_id={$request->person->id}
+			)");
 
 		// get content for the view
 		$content = [
@@ -139,6 +140,24 @@ class Service
 		// get the amulet to purchase
 		$code = $request->input->data->code;
 		$amulet = Connection::query("SELECT id, duration FROM _amulets WHERE code='$code'")[0];
+
+		// check if the user already have thay amulet
+		$isAmuletInInventory = Connection::query("
+			SELECT COUNT(id) AS cnt 
+			FROM _amulets_person 
+			WHERE person_id = {$request->person->id}
+			AND amulet_id = {$amulet->id}
+			AND (expires > CURRENT_TIMESTAMP OR expires IS NULL)")[0]->cnt;
+
+		// do not purchase if you already have the amulet
+		if($isAmuletInInventory > 0) {
+			return $response->setTemplate('message.ejs', [
+				"header"=>"Ya tienes el amuleto",
+				"icon"=>"sentiment_neutral",
+				"text" => "El Druida te mira con cara seria y te dice: Ya tienes ese amuleto, ¿Por que quieres gastar tus créditos?. Escoge otro o vuelve cuando pierda su efectividad.",
+				"button" => ["href"=>"AMULETOS STORE", "caption"=>"Escoger otro"]
+			]);
+		}
 
 		// process the payment
 		try {

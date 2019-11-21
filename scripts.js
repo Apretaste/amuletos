@@ -22,8 +22,7 @@ function openModalUnequip(id, name, desc, icon) {
 function unequip() {
 	apretaste.send({
 		command: "AMULETOS UNEQUIP",
-		data: {'id': selectedCode},
-		redirect: true
+		data: {'id': selectedCode}
 	});
 }
 
@@ -39,8 +38,7 @@ function openModalBuy(code, name, price) {
 function buy() {
 	apretaste.send({
 		command: "AMULETOS PAY", 
-		data: {'code': selectedCode},
-		redirect: true
+		data: {'code': selectedCode}
 	});
 }
 
