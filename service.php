@@ -113,7 +113,8 @@ class Service
 		$amulets = Connection::query("
 			SELECT *
 			FROM _amulets
-			WHERE id NOT IN (
+			WHERE active = 1
+			AND id NOT IN (
 				SELECT amulet_id 
 				FROM _amulets_person 
 				WHERE person_id={$request->person->id}
