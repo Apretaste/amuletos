@@ -71,9 +71,9 @@ class Service
 
 		// equip the amulet
 		Connection::query("
-			UPDATE _amulets_person 
+			UPDATE _amulets_person
 			SET active = 1
-			WHERE amulet_id = {$request->input->data->id} 
+			WHERE amulet_id = {$request->input->data->id}
 			AND person_id = {$request->person->id}");
 
 		// get back to the list of amulets
@@ -91,7 +91,7 @@ class Service
 	{
 		// unequip the amulet
 		Connection::query("
-			UPDATE _amulets_person 
+			UPDATE _amulets_person
 			SET active = 0
 			WHERE amulet_id = {$request->input->data->id}
 			AND person_id = {$request->person->id}");
@@ -115,9 +115,10 @@ class Service
 			FROM _amulets
 			WHERE active = 1
 			AND id NOT IN (
-				SELECT amulet_id 
-				FROM _amulets_person 
+				SELECT amulet_id
+				FROM _amulets_person
 				WHERE person_id={$request->person->id}
+				AND (expires > CURRENT_TIMESTAMP OR expires IS NULL)
 			)");
 
 		// get content for the view
@@ -144,8 +145,8 @@ class Service
 
 		// check if the user already have thay amulet
 		$isAmuletInInventory = Connection::query("
-			SELECT COUNT(id) AS cnt 
-			FROM _amulets_person 
+			SELECT COUNT(id) AS cnt
+			FROM _amulets_person
 			WHERE person_id = {$request->person->id}
 			AND amulet_id = {$amulet->id}
 			AND (expires > CURRENT_TIMESTAMP OR expires IS NULL)")[0]->cnt;
@@ -181,7 +182,7 @@ class Service
 			VALUES ({$request->person->id}, {$amulet->id}, $expires)");
 
 		// possitive response
-		return $response->setTemplate('message.ejs', [  
+		return $response->setTemplate('message.ejs', [
 			"header"=>"Canje realizado",
 			"icon"=>"sentiment_very_satisfied",
 			"text" => "Su canje se ha realizado satisfactoriamente. Active el amuleto para aprovechar sus poderes. Recuerde que algunos amuletos pierden su fuerza incluso estando inactivos.",
