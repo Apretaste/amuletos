@@ -3,5 +3,7 @@
 	"description": "Muestra los amuletos activos, y permite equipar, desequipar y comprar amuletos.",
 	"category": "ocio",
 	"creator": "salvi@apretaste.org",
-	"listed": true
+	"listed": true,
+	"guest": true,
+	"caption": "Amuletos"
 }
