@@ -1,5 +1,6 @@
 <?php
 
+use Apretaste\Money;
 use Framework\Database;
 use Apretaste\Request;
 use Apretaste\Response;
@@ -74,7 +75,10 @@ class Service {
 			AND active = 1")[0]->cnt;
 
 		// return back the list if there are not empty slots
-		if ($equippedAmuletsCount >= 3) return $this->_main($request, $response);
+		if ($equippedAmuletsCount >= 3) {
+			$this->_main($request, $response);
+			return;
+		}
 
 		// equip the amulet
 		Database::query("
@@ -140,4 +144,66 @@ class Service {
 		$response->setTemplate('store.ejs', $content);
 	}
 
+
+	/**
+	 * Pay for an item and add the items to the database
+	 *
+	 * @param \Apretaste\Request  $request
+	 * @param \Apretaste\Response $response
+	 *
+	 * @throws \Framework\Alert
+	 */
+	public function _pay(Request $request, Response $response)
+	{
+		// get the amulet to purchase
+		$code = $request->input->data->code;
+		$amulet = Database::query("SELECT id, duration FROM _amulets WHERE code='$code'")[0];
+
+		// check if the user already have thay amulet
+		$isAmuletInInventory = Connection::query("
+			SELECT COUNT(id) AS cnt
+			FROM _amulets_person
+			WHERE person_id = {$request->person->id}
+			AND amulet_id = {$amulet->id}
+			AND (expires > CURRENT_TIMESTAMP OR expires IS NULL)")[0]->cnt;
+
+		// do not purchase if you already have the amulet
+		if($isAmuletInInventory > 0) {
+			$response->setTemplate('message.ejs', [
+					'header' => 'Ya tienes el amuleto',
+					'icon'   => 'sentiment_neutral',
+					'text'   => 'El Druida te mira con cara seria y te dice: Ya tienes ese amuleto, ¿Por que quieres gastar tus créditos?. Escoge otro o vuelve cuando pierda su efectividad.',
+					'button' => ['href' => 'AMULETOS STORE', 'caption' => 'Escoger otro']
+			]);
+			return;
+		}
+
+		// process the payment
+		try {
+			Money::purchase($request->person->id, $code);
+		} catch (Exception $e) {
+			$response->setTemplate('message.ejs', [
+					'header' => 'Error inesperado',
+					'icon'   => 'sentiment_very_dissatisfied',
+					'text'   => 'Hemos encontrado un error procesando su canje. Por favor intente nuevamente, si el problema persiste, escríbanos al soporte.',
+					'button' => ['href' => 'AMULETOS STORE', 'caption' => 'Reintentar']]);
+			return;
+		}
+
+		// calculate expiration date
+		if($amulet->duration <= 0) $expires = 'NULL';
+		else $expires = "'".date('Y-m-d H:m:s', strtotime("+{$amulet->duration} hours"))."'";
+
+		// add the amulet to the table
+		Connection::query("
+			INSERT INTO _amulets_person(person_id, amulet_id, expires)
+			VALUES ({$request->person->id}, {$amulet->id}, $expires)");
+
+		// possitive response
+		$response->setTemplate('message.ejs', [
+				'header' => 'Canje realizado',
+				'icon'   => 'sentiment_very_satisfied',
+				'text'   => 'Su canje se ha realizado satisfactoriamente. Active el amuleto para aprovechar sus poderes. Recuerde que algunos amuletos pierden su fuerza incluso estando inactivos.',
+				'button' => ['href' => 'AMULETOS', 'caption' => 'Mis amuletos']]);
+	}
 }
