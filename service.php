@@ -160,7 +160,7 @@ class Service {
 		$amulet = Database::query("SELECT id, duration FROM _amulets WHERE code='$code'")[0];
 
 		// check if the user already have thay amulet
-		$isAmuletInInventory = Connection::query("
+		$isAmuletInInventory = Database::query("
 			SELECT COUNT(id) AS cnt
 			FROM _amulets_person
 			WHERE person_id = {$request->person->id}
@@ -195,7 +195,7 @@ class Service {
 		else $expires = "'".date('Y-m-d H:m:s', strtotime("+{$amulet->duration} hours"))."'";
 
 		// add the amulet to the table
-		Connection::query("
+		Database::query("
 			INSERT INTO _amulets_person(person_id, amulet_id, expires)
 			VALUES ({$request->person->id}, {$amulet->id}, $expires)");
 
