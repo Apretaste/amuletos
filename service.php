@@ -4,20 +4,20 @@ use Apretaste\Money;
 use Framework\Database;
 use Apretaste\Request;
 use Apretaste\Response;
-use Apretaste\Notifications;
 
-
-class Service {
+class Service
+{
 	/**
 	 * Get active amulets and the inventary
 	 *
-	 * @param Request  $request
+	 * @param Request $request
 	 * @param Response $response
 	 *
 	 * @throws \Framework\Alert
 	 * @author salvipascual
 	 */
-	public function _main(Request $request, Response &$response) {
+	public function _main(Request $request, Response &$response)
+	{
 		// get the list of amulets
 		$amulets = Database::query("
 			SELECT A.amulet_id, A.expires, A.active, B.name, B.description, B.icon
@@ -42,14 +42,17 @@ class Service {
 			}
 
 			// clasify the amulet
-			if ($amulet->active) $active[] = $amulet;
-			else $inventary[] = $amulet;
+			if ($amulet->active) {
+				$active[] = $amulet;
+			} else {
+				$inventary[] = $amulet;
+			}
 		}
 
 		// get content for the view
 		$content = [
-				'credits'   => $request->person->credit,
-				'active'    => $active,
+				'credits' => $request->person->credit,
+				'active' => $active,
 				'inventary' => $inventary];
 
 		// send data to the view
@@ -59,14 +62,15 @@ class Service {
 	/**
 	 * Equip an amulet from the inventory
 	 *
-	 * @param Request  $request
+	 * @param Request $request
 	 * @param Response $response
 	 *
 	 * @throws \FeedException
 	 * @throws \Framework\Alert
 	 * @author salvipascual
 	 */
-	public function _equip(Request $request, Response &$response) {
+	public function _equip(Request $request, Response &$response)
+	{
 		// check if you have an empty slot
 		$equippedAmuletsCount = Database::query("
 			SELECT COUNT(id) AS cnt
@@ -95,14 +99,15 @@ class Service {
 	/**
 	 * Unequip an amulet and send it back to the inventory
 	 *
-	 * @param Request  $request
+	 * @param Request $request
 	 * @param Response $response
 	 *
 	 * @throws \FeedException
 	 * @throws \Framework\Alert
 	 * @author salvipascual
 	 */
-	public function _unequip(Request $request, Response &$response) {
+	public function _unequip(Request $request, Response &$response)
+	{
 		// unequip the amulet
 		Database::query("
 			UPDATE _amulets_person
@@ -117,13 +122,14 @@ class Service {
 	/**
 	 * Display the amulets for sale
 	 *
-	 * @param Request  $request
+	 * @param Request $request
 	 * @param Response $response
 	 *
 	 * @throws \Framework\Alert
 	 * @author salvipascual
 	 */
-	public function _store(Request $request, Response &$response) {
+	public function _store(Request $request, Response &$response)
+	{
 		// get the list of amulets
 		$amulets = Database::query("
 			SELECT *
@@ -149,7 +155,7 @@ class Service {
 	/**
 	 * Pay for an item and add the items to the database
 	 *
-	 * @param \Apretaste\Request  $request
+	 * @param \Apretaste\Request $request
 	 * @param \Apretaste\Response $response
 	 *
 	 * @throws \Framework\Alert
@@ -169,11 +175,11 @@ class Service {
 			AND (expires > CURRENT_TIMESTAMP OR expires IS NULL)")[0]->cnt;
 
 		// do not purchase if you already have the amulet
-		if($isAmuletInInventory > 0) {
+		if ($isAmuletInInventory > 0) {
 			$response->setTemplate('message.ejs', [
 					'header' => 'Ya tienes el amuleto',
-					'icon'   => 'sentiment_neutral',
-					'text'   => 'El Druida te mira con cara seria y te dice: Ya tienes ese amuleto, ¿Por que quieres gastar tus créditos?. Escoge otro o vuelve cuando pierda su efectividad.',
+					'icon' => 'sentiment_neutral',
+					'text' => 'El Druida te mira con cara seria y te dice: Ya tienes ese amuleto, ¿Por que quieres gastar tus créditos?. Escoge otro o vuelve cuando pierda su efectividad.',
 					'button' => ['href' => 'AMULETOS STORE', 'caption' => 'Escoger otro']
 			]);
 			return;
@@ -185,15 +191,18 @@ class Service {
 		} catch (Exception $e) {
 			$response->setTemplate('message.ejs', [
 					'header' => 'Error inesperado',
-					'icon'   => 'sentiment_very_dissatisfied',
-					'text'   => 'Hemos encontrado un error procesando su canje. Por favor intente nuevamente, si el problema persiste, escríbanos al soporte.',
+					'icon' => 'sentiment_very_dissatisfied',
+					'text' => 'Hemos encontrado un error procesando su canje. Por favor intente nuevamente, si el problema persiste, escríbanos al soporte.',
 					'button' => ['href' => 'AMULETOS STORE', 'caption' => 'Reintentar']]);
 			return;
 		}
 
 		// calculate expiration date
-		if($amulet->duration <= 0) $expires = 'NULL';
-		else $expires = "'".date('Y-m-d H:m:s', strtotime("+{$amulet->duration} hours"))."'";
+		if ($amulet->duration <= 0) {
+			$expires = 'NULL';
+		} else {
+			$expires = "'".date('Y-m-d H:m:s', strtotime("+{$amulet->duration} hours"))."'";
+		}
 
 		// add the amulet to the table
 		Database::query("
@@ -203,8 +212,8 @@ class Service {
 		// possitive response
 		$response->setTemplate('message.ejs', [
 				'header' => 'Canje realizado',
-				'icon'   => 'sentiment_very_satisfied',
-				'text'   => 'Su canje se ha realizado satisfactoriamente. Active el amuleto para aprovechar sus poderes. Recuerde que algunos amuletos pierden su fuerza incluso estando inactivos.',
+				'icon' => 'sentiment_very_satisfied',
+				'text' => 'Su canje se ha realizado satisfactoriamente. Active el amuleto para aprovechar sus poderes. Recuerde que algunos amuletos pierden su fuerza incluso estando inactivos.',
 				'button' => ['href' => 'AMULETOS', 'caption' => 'Mis amuletos']]);
 	}
 }
