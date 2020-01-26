@@ -26,7 +26,7 @@ class Service
 			ON A.amulet_id = B.id
 			WHERE A.person_id = {$request->person->id}
 			AND (A.expires > CURRENT_TIMESTAMP OR A.expires IS NULL)
-			AND B.active = 1
+			AND B.active = 1 and core <= 3
 			ORDER BY A.expires DESC");
 
 		// separate active from inventary
@@ -134,7 +134,7 @@ class Service
 		$amulets = Database::query("
 			SELECT *
 			FROM _amulets
-			WHERE active = 1
+			WHERE active = 1 and core <= 3
 			AND id NOT IN (
 				SELECT amulet_id
 				FROM _amulets_person
