@@ -1,6 +1,7 @@
 <?php
 
 use Apretaste\Money;
+use Apretaste\Notifications;
 use Framework\Database;
 use Apretaste\Request;
 use Apretaste\Response;
@@ -37,7 +38,7 @@ class Service
 				$today = new DateTime();
 				$future = new DateTime($amulet->expires);
 				$diff = date_diff($today, $future);
-				$amulet->countdown = $diff->d * 24 + $diff->h.':'.$diff->i.':'.$diff->s;
+				$amulet->countdown = $diff->d * 24 + $diff->h . ':' . $diff->i . ':' . $diff->s;
 			}
 
 			// clasify the amulet
@@ -88,6 +89,10 @@ class Service
 			SET active = 1
 			WHERE amulet_id = {$request->input->data->id}
 			AND person_id = {$request->person->id}");
+
+		$amulet = Database::query("SELECT `name` FROM _amulets WHERE id={$request->input->data->id}")[0]->name;
+
+		Notifications::log($request->person->id, "Equipaste el amuleto $amulet");
 
 		// get back to the list of amulets
 		$this->_main($request, $response);
