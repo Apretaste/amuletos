@@ -5,6 +5,7 @@ use Apretaste\Notifications;
 use Framework\Database;
 use Apretaste\Request;
 use Apretaste\Response;
+use Apretaste\Challenges;
 
 class Service
 {
@@ -206,8 +207,11 @@ class Service
 			INSERT INTO _amulets_person(person_id, amulet_id, expires)
 			VALUES ({$request->person->id}, {$amulet->id}, $expires)");
 
+		// challenges
+		Challenges::complete('druida', $request->person->id);
+
 		// possitive response
-		$response->setTemplate('message.ejs', [
+		return $response->setTemplate('message.ejs', [
 			'header' => 'Canje realizado',
 			'icon' => 'sentiment_very_satisfied',
 			'text' => 'Su canje se ha realizado satisfactoriamente. Active el amuleto para aprovechar sus poderes. Recuerde que algunos amuletos pierden su fuerza incluso estando inactivos.',
