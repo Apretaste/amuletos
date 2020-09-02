@@ -5,35 +5,29 @@
 			<li class="tab"><a href="#" class="active">Druida</a></li> 
 		</ul>
 
-		<p><span class="green-text">Usted tiene <b>§<%= credits %></b></span><br>
-		El Druida le canjea amuletos, que usted puede equipar para usar sus poderes.</p>
+		<p>El Druida le canjea amuletos que usted puede equipar para usar sus poderes. Una vez canjeados, el tiempo de efectividad empezará a descontar.</p>
+
+		<span class="chip"><i class="fas fa-coins"></i> §<%= credits %></span>
 
 		<ul class="collection">
 			<% amulets.forEach(function(item) { %>
+				<% var effect = (item.duration > 0) ? item.duration + 'h' : 'ilimitado'; %>
 				<li class="collection-item avatar">
-					<i class="material-icons circle green"><%= item.icon %></i>
-					<span class="title"><b><%= item.name %></b></span>
-					<p class="green-text">
-						<% if(item.duration > 0) { %>
-							Efecto <%= item.duration %>h
-						<% } else { %>
-							Efecto ilimitado
-						<% } %>
+					<i class="material-icons circle"><%= item.icon %></i>
 
-						<span class="black-text">&middot;</span>
-						§<%= item.price %>
-					</p>
+					<span class="title">
+						<b><%= item.name %></b>
+						<span class="chip tiny right"><i class="fas fa-battery-half"></i> Efecto <%= effect %></span>
+					</span>
 
-					<p class="desc"><%= item.description %></p>
+					<p><%= item.description %></p>
 
-					<a href="#!" class="secondary-content" onclick="openModalBuy('<%= item.code %>','<%= item.name %>','<%= item.price %>')">
-						<i class="material-icons green-text">shopping_cart</i>
+					<a href="#!" class="green-text" onclick="openModalBuy('<%= item.code %>','<%= item.name %>','<%= item.price %>')">
+						Canjear por §<%= item.price %>
 					</a>
 				</li>
 			<% }) %>
 		</ul>
-
-		<p class="note grey-text">Una vez canjeados, el tiempo de efectividad del amuleto empezará a descontar.</p>
 	</div>
 </div>
 

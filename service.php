@@ -14,7 +14,6 @@ class Service
 	 *
 	 * @param Request $request
 	 * @param Response $response
-	 * @throws Alert
 	 * @author salvipascual
 	 */
 	public function _main(Request $request, Response &$response)
@@ -54,7 +53,8 @@ class Service
 		$content = [
 			'credits' => $request->person->credit,
 			'active' => $active,
-			'inventary' => $inventary];
+			'inventary' => $inventary
+		];
 
 		// send data to the view
 		$response->setTemplate('home.ejs', $content);
@@ -65,7 +65,6 @@ class Service
 	 *
 	 * @param Request $request
 	 * @param Response $response
-	 * @throws Alert
 	 * @author salvipascual
 	 */
 	public function _equip(Request $request, Response &$response)
@@ -93,13 +92,12 @@ class Service
 
 		$amulet = Database::query("SELECT `name` FROM _amulets WHERE id={$request->input->data->id}")[0]->name;
 
+		// user log
 		Notifications::log($request->person->id, "Equipaste el amuleto $amulet");
 
 		// challenges
 		Challenges::track($request->person->id, 'druida', 0, function ($track) {
-			if ($track == 1) {
-				$track = 2;
-			}
+			if ($track == 1) $track = 2;
 			return $track;
 		});
 
@@ -112,9 +110,6 @@ class Service
 	 *
 	 * @param Request $request
 	 * @param Response $response
-	 *
-	 * @throws \FeedException
-	 * @throws Alert
 	 * @author salvipascual
 	 */
 	public function _unequip(Request $request, Response &$response)
@@ -135,7 +130,6 @@ class Service
 	 *
 	 * @param Request $request
 	 * @param Response $response
-	 * @throws Alert
 	 * @author salvipascual
 	 */
 	public function _store(Request $request, Response &$response)
@@ -155,7 +149,8 @@ class Service
 		// get content for the view
 		$content = [
 			'credits' => $request->person->credit,
-			'amulets' => $amulets];
+			'amulets' => $amulets
+		];
 
 		// send data to the view
 		$response->setTemplate('store.ejs', $content);
@@ -166,7 +161,7 @@ class Service
 	 *
 	 * @param Request $request
 	 * @param Response $response
-	 * @throws Alert
+	 * @author salvipascual
 	 */
 	public function _pay(Request $request, Response $response)
 	{
@@ -228,6 +223,7 @@ class Service
 			'header' => 'Canje realizado',
 			'icon' => 'sentiment_very_satisfied',
 			'text' => 'Su canje se ha realizado satisfactoriamente. Active el amuleto para aprovechar sus poderes. Recuerde que algunos amuletos pierden su fuerza incluso estando inactivos.',
-			'button' => ['href' => 'AMULETOS', 'caption' => 'Mis amuletos']]);
+			'button' => ['href' => 'AMULETOS', 'caption' => 'Mis amuletos']
+		]);
 	}
 }

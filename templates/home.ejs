@@ -21,7 +21,7 @@
 
 	<% if(!active.length) { %>
 		<div class="col s12 center black-text">
-			Usted no tiene amuletos equipados. Equipe alguno y disfrute sus poderes.
+			No tiene amuletos equipados. Equipe alguno y disfrute sus poderes.
 		</div>
 	<% } %>
 </div>
@@ -31,24 +31,18 @@
 		<div class="col s12">
 			<ul class="collection">
 				<% inventary.forEach(function(item) { %>
+					<% var effect = (item.countdown) ? '<span class="countdown">' + item.countdown + '</span>' : 'Efecto ilimitado'; %>
 					<li class="collection-item avatar">
-						<i class="material-icons circle green"><%= item.icon %></i>
-						<span class="title"><b><%= item.name %></b></span>
-						<p class="green-text">
-							<% if(item.countdown) { %>
-								<span class="countdown"><%= item.countdown %></span>
-							<% } else { %>
-								Efecto ilimitado
-							<% } %>
-						</p>
+						<i class="material-icons circle"><%= item.icon %></i>
+						<span class="title">
+							<b><%= item.name %></b>
+							<span class="chip tiny right"><i class="fas fa-battery-half"></i> <%- effect %></span>
+						</span>
 
-						<p class="desc"><%= item.description %></p>
+						<p><%= item.description %></p>
 
 						<% if(active.length < 3) { %>
-							<a href="#!" class="secondary-content green-text" 
-								onclick="apretaste.send({command:'AMULETOS EQUIP', data:{'id':'<%= item.amulet_id %>'}})">
-								<i class="material-icons">arrow_upward</i>
-							</a>
+							<a href="#!" class="green-text" onclick="apretaste.send({command:'AMULETOS EQUIP', data:{'id':'<%= item.amulet_id %>'}})">Equipar amuleto</a>
 						<% } %>
 					</li>
 				<% }) %>
@@ -58,7 +52,7 @@
 <% } else { %>
 	<div class="row">
 		<div class="col s12 center">
-			<p>No posee ningún amuleto en el inventario. Tal vez los que tenía han perdido efectividad. Visite al <a href="#!" onclick="apretaste.send({command:'AMULETOS STORE'})">Druida</a> para obtener amuletos y utilizar sus poderes.</p>
+			<p class="middle-center grey-text">No posee ningún amuleto en el inventario. Tal vez los que tenía han perdido efectividad. Visite al Druida para obtener amuletos y utilizar sus poderes.</p>
 		</div>
 	</div>
 <% } %>
