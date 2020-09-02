@@ -7,8 +7,6 @@
 
 		<p>El Druida le canjea amuletos que usted puede equipar para usar sus poderes. Una vez canjeados, el tiempo de efectividad empezará a descontar.</p>
 
-		<span class="chip"><i class="fas fa-coins"></i> §<%= credits %></span>
-
 		<ul class="collection">
 			<% amulets.forEach(function(item) { %>
 				<% var effect = (item.duration > 0) ? item.duration + 'h' : 'ilimitado'; %>
@@ -17,7 +15,7 @@
 
 					<span class="title">
 						<b><%= item.name %></b>
-						<span class="chip tiny right"><i class="fas fa-battery-half"></i> Efecto <%= effect %></span>
+						<span class="chip tiny right"><i class="fas fa-burn"></i> Efecto <%= effect %></span>
 					</span>
 
 					<p><%= item.description %></p>

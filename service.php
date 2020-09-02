@@ -146,14 +146,8 @@ class Service
 				AND (expires > CURRENT_TIMESTAMP OR expires IS NULL)
 			)");
 
-		// get content for the view
-		$content = [
-			'credits' => $request->person->credit,
-			'amulets' => $amulets
-		];
-
 		// send data to the view
-		$response->setTemplate('store.ejs', $content);
+		$response->setTemplate('store.ejs', ['amulets' => $amulets]);
 	}
 
 	/**
