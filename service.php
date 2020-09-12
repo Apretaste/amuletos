@@ -97,7 +97,9 @@ class Service
 
 		// challenges
 		Challenges::track($request->person->id, 'druida', 0, function ($track) {
-			if ($track == 1) $track = 2;
+			if ($track == 1) {
+				$track = 2;
+			}
 			return $track;
 		});
 
@@ -145,6 +147,8 @@ class Service
 				WHERE person_id={$request->person->id}
 				AND (expires > CURRENT_TIMESTAMP OR expires IS NULL)
 			)");
+
+		Challenges::complete('visit-druida', $request->person->id);
 
 		// send data to the view
 		$response->setTemplate('store.ejs', ['amulets' => $amulets]);
