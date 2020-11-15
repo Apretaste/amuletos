@@ -200,14 +200,6 @@ class Service
 			INSERT INTO _amulets_person(person_id, amulet_id, expires)
 			VALUES ({$request->person->id}, {$amulet->id}, $expires)");
 
-		// challenges
-		Challenges::track($request->person->id, 'druida', 0, function ($track) {
-			if ($track == 0) {
-				$track = 1;
-			}
-			return $track;
-		});
-
 		// possitive response
 		return $response->setTemplate('message.ejs', [
 			'header' => 'Canje realizado',
