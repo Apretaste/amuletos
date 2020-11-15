@@ -95,14 +95,6 @@ class Service
 		// user log
 		Notifications::log($request->person->id, "Equipaste el amuleto $amulet");
 
-		// challenges
-		Challenges::track($request->person->id, 'druida', 0, function ($track) {
-			if ($track == 1) {
-				$track = 2;
-			}
-			return $track;
-		});
-
 		// get back to the list of amulets
 		$this->_main($request, $response);
 	}
