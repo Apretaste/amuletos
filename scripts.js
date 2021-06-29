@@ -59,7 +59,8 @@ function countdown() {
 
 		// in the case of days
 		if(hours > 24) {
-			daysRemaining = Math.floor(hours / 24)
+			var daysRemaining = Math.floor(hours / 24);
+			if (hours > daysRemaining * 24) daysRemaining++;
 			$(e).html(daysRemaining + ' días');
 			return;
 		}

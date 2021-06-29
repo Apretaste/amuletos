@@ -38,7 +38,7 @@ class Service
 				$today = new DateTime();
 				$future = new DateTime($amulet->expires);
 				$diff = date_diff($today, $future);
-				$amulet->countdown = $diff->d * 24 + $diff->h . ':' . $diff->i . ':' . $diff->s;
+				$amulet->countdown = ($diff->d * 24 + $diff->h) . ':' . $diff->i . ':' . $diff->s;
 			}
 
 			// clasify the amulet
